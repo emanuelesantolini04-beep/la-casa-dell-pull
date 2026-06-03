@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Casa del Pull | Caos Nascente & TCG Universe</title>
+<style>
+:root{
+  --bg-main:#f8fafc;--bg-card:rgba(255,255,255,0.92);--text-main:#0f172a;--text-muted:#64748b;
+  --border-light:rgba(15,23,42,0.08);--pkmn:#eab308;--yugi:#dc2626;--onepiece:#ea580c;
+  --magic:#0284c7;--neon-blue:#06b6d4;--neon-pink:#db2777;--neon-green:#16a34a;
+  --gengar-purple:#6b21a8;--gengar-mid:#7c3aed;--gengar-light:#a855f7;
+  --gengar-dark:#3b0764;--gengar-glow:#c084fc;
+  --reshiram-red:#ef4444;--reshiram-orange:#f97316;
+}
+*{box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Arial Black','Impact',system-ui,sans-serif;background:var(--bg-main);color:var(--text-main);margin:0;padding:0;overflow-x:hidden;}
+
+/* ── TOP BAR ── */
+.top-interface{display:flex;justify-content:space-between;align-items:center;padding:15px 40px;position:sticky;top:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(14px);z-index:99;border-bottom:1px solid var(--border-light);gap:20px;box-shadow:0 4px 20px rgba(0,0,0,0.03);}
+.top-left-area{display:flex;align-items:center;gap:12px;flex-shrink:0;position:relative;}
+.mini-brand{font-size:1.5rem;text-transform:uppercase;font-style:italic;background:linear-gradient(180deg,var(--text-main),var(--magic));-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;margin-left:5px;}
+.gengar-header{position:absolute;top:-25px;left:120px;width:35px;height:35px;opacity:0.8;transform:rotate(15deg);}
+.top-social-icon{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.03);border:1px solid var(--border-light);color:var(--text-main);text-decoration:none;transition:all .2s;}
+.top-social-icon:hover{transform:scale(1.1);}
+.top-social-icon.tiktok:hover{border-color:var(--neon-blue);color:var(--neon-blue);}
+.top-social-icon.instagram:hover{border-color:var(--neon-pink);color:var(--neon-pink);}
+.top-social-icon svg{width:16px;height:16px;}
+.search-container{flex:1;max-width:400px;}
+.search-input{width:100%;background:rgba(0,0,0,0.03);border:1px solid var(--border-light);padding:12px 20px;border-radius:30px;color:var(--text-main);font-family:system-ui,sans-serif;font-size:.95rem;font-weight:500;outline:none;transition:all .3s;}
+.search-input:focus{background:#fff;border-color:var(--magic);box-shadow:0 0 15px rgba(2,132,199,.15);}
+.top-right-logo-area{display:flex;align-items:center;gap:15px;flex-shrink:0;}
+.caos-nav-logo{height:45px;width:45px;border-radius:50%;border:2px solid var(--pkmn);object-fit:cover;display:block;}
+.cta-cart-top{background:linear-gradient(135deg,var(--text-main),var(--text-muted));color:white;border:none;padding:10px 16px;border-radius:10px;font-family:'Arial Black',sans-serif;font-size:.8rem;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.1);transition:transform .2s;}
+.cta-cart-top:hover{transform:scale(1.05);}
+
+/* ── HERO ── */
+.hero-caos{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center;padding:60px 40px;background:linear-gradient(135deg,#1e293b 0%,#0f172a 50%,#2e1065 100%);border-bottom:2px solid #000;position:relative;overflow:hidden;}
+.fog-container{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;opacity:.45;}
+.fog-layer{position:absolute;width:200%;height:100%;filter:blur(40px);}
+.fog-1{top:0;left:0;background:radial-gradient(circle at 20% 50%,rgba(71,85,105,.4) 0%,transparent 60%),radial-gradient(circle at 70% 30%,rgba(124,58,237,.25) 0%,transparent 50%);animation:fogR 35s linear infinite;}
+.fog-2{bottom:-20px;left:-50%;background:radial-gradient(circle at 40% 70%,rgba(51,65,85,.5) 0%,transparent 55%),radial-gradient(circle at 80% 40%,rgba(139,92,246,.2) 0%,transparent 50%);animation:fogL 45s linear infinite;}
+@keyframes fogR{0%{transform:translateX(0)}50%{transform:translateX(-25%) scaleY(1.1)}100%{transform:translateX(0)}}
+@keyframes fogL{0%{transform:translateX(0) scale(1)}50%{transform:translateX(20%) scale(1.15)}100%{transform:translateX(0) scale(1)}}
+.hero-text,.hero-img-box{position:relative;z-index:2;}
+.hero-text h1{font-size:3.8rem;line-height:.95;margin:0 0 20px;text-transform:uppercase;font-style:italic;background:linear-gradient(180deg,#fff 40%,#94a3b8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-text p{font-family:system-ui,sans-serif;font-size:1.15rem;line-height:1.6;color:#cbd5e1;margin-bottom:30px;}
+.hero-img-box{border-radius:20px;height:320px;background:linear-gradient(135deg,#334155,#1e293b);display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.1);box-shadow:0 10px 30px rgba(0,0,0,.5);overflow:hidden;}
+.hero-img-box img{width:100%;height:100%;object-fit:contain;padding:10px;}
+
+/* ── NAV ── */
+.navigation-container{background:#fff;padding:20px 0;display:flex;justify-content:center;border-bottom:1px solid var(--border-light);}
+.game-nav{display:flex;justify-content:center;gap:12px;max-width:1200px;width:100%;padding:0 20px;flex-wrap:wrap;}
+.nav-btn{background:rgba(0,0,0,.03);color:var(--text-main);border:1px solid var(--border-light);padding:14px 28px;border-radius:14px;font-family:'Arial Black',sans-serif;font-size:.85rem;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.nav-btn:hover{background:var(--text-main);color:white;border-color:transparent;transform:translateY(-2px);}
+
+/* ── GENGAR BANNER ── */
+.gengar-promo-banner{max-width:1300px;margin:30px auto 0;padding:0 40px;}
+.gengar-box{background:linear-gradient(135deg,var(--gengar-purple) 0%,#4c1d95 100%);color:white;padding:30px;border-radius:24px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 25px rgba(107,33,168,.25);position:relative;overflow:hidden;}
+.gengar-box-text h2{margin:0 0 8px;font-size:2rem;font-style:italic;text-transform:uppercase;}
+.gengar-box-text p{margin:0;font-family:system-ui,sans-serif;font-size:1rem;opacity:.9;}
+.gengar-btn-cta{background:#fff;color:var(--gengar-purple);border:none;padding:14px 28px;border-radius:12px;font-family:'Arial Black',sans-serif;font-size:.9rem;text-transform:uppercase;cursor:pointer;transition:all .2s;z-index:2;box-shadow:0 5px 15px rgba(0,0,0,.15);}
+.gengar-btn-cta:hover{transform:scale(1.05);background:#f3e8ff;}
+.gengar-bg-icon{position:absolute;right:250px;bottom:-20px;width:110px;height:110px;opacity:.15;transform:rotate(-15deg);}
+
+/* ── SECTIONS ── */
+.section-integrated{padding:60px 40px;position:relative;}
+#sezione-ricerca{background:linear-gradient(180deg,#fff,var(--bg-main));display:none;}
+#sezione-pokemon{background:linear-gradient(180deg,var(--bg-main),#fefce8);}
+#sezione-yugioh{background:linear-gradient(180deg,#fefce8,#fef2f2);}
+#sezione-onepiece{background:linear-gradient(180deg,#fef2f2,#fff7ed);}
+#sezione-magic{background:linear-gradient(180deg,#fff7ed,#f0f9ff);}
+#sezione-godpulls{background:linear-gradient(180deg,#f0f9ff,var(--bg-main));}
+.section-width{max-width:1300px;margin:0 auto;}
+.section-title{font-size:2.8rem;text-transform:uppercase;font-style:italic;margin-bottom:5px;letter-spacing:-1px;}
+.section-subtitle{font-family:system-ui,sans-serif;color:var(--text-muted);font-size:1.05rem;margin-bottom:30px;}
+
+/* ── CAROUSEL ── */
+.carousel-container{position:relative;display:flex;align-items:center;}
+.carousel-track{display:flex;gap:24px;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;padding:15px 5px;width:100%;}
+.carousel-track::-webkit-scrollbar{display:none;}
+.arrow-btn{background:#fff;color:var(--text-main);border:1px solid var(--border-light);width:45px;height:45px;border-radius:50%;position:absolute;cursor:pointer;z-index:10;font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.05);transition:all .2s;}
+.arrow-btn:hover{background:var(--text-main);color:white;}
+.arrow-left{left:-20px;}.arrow-right{right:-20px;}
+
+/* ── PRODUCT CARD ── */
+.product-card{flex:0 0 255px;background:var(--bg-card);border:1px solid var(--border-light);border-radius:20px;padding:18px;text-align:center;position:relative;overflow:hidden;cursor:pointer;box-shadow:0 4px 20px rgba(15,23,42,.04);transition:transform .4s cubic-bezier(.16,1,.3,1),border-color .4s,box-shadow .4s;}
+.product-card::after{content:"";position:absolute;inset:0;background:linear-gradient(125deg,transparent 0%,rgba(6,182,212,.08) 30%,rgba(219,39,119,.08) 50%,rgba(22,163,74,.05) 70%,transparent 100%);background-size:200% 200%;opacity:0;pointer-events:none;transition:opacity .4s,background-position .4s;z-index:1;}
+.product-card:hover::after{opacity:1;background-position:100% 100%;}
+#sezione-pokemon .product-card:hover{border-color:var(--pkmn);box-shadow:0 12px 30px rgba(234,179,8,.15);transform:translateY(-6px);}
+#sezione-yugioh .product-card:hover{border-color:var(--yugi);box-shadow:0 12px 30px rgba(220,38,38,.15);transform:translateY(-6px);}
+#sezione-onepiece .product-card:hover{border-color:var(--onepiece);box-shadow:0 12px 30px rgba(234,88,12,.15);transform:translateY(-6px);}
+#sezione-magic .product-card:hover{border-color:var(--magic);box-shadow:0 12px 30px rgba(2,132,199,.15);transform:translateY(-6px);}
+#sezione-ricerca .product-card:hover{border-color:var(--magic);box-shadow:0 12px 30px rgba(2,132,199,.12);transform:translateY(-4px);}
+.fomo-badge{position:absolute;top:14px;left:14px;font-family:'Arial Black',sans-serif;font-size:.6rem;text-transform:uppercase;padding:4px 8px;border-radius:6px;z-index:3;background:var(--text-main);color:white;}
+.img-container{background:#f8fafc;border:1px solid rgba(0,0,0,.05);border-radius:12px;height:165px;overflow:hidden;margin-bottom:13px;position:relative;z-index:2;display:flex;align-items:center;justify-content:center;}
+.img-container img{width:100%;height:100%;object-fit:contain;padding:8px;transition:transform .35s;}
+.product-card:hover .img-container img{transform:scale(1.07);}
+.img-placeholder{width:100%;height:100%;display:none;flex-direction:column;align-items:center;justify-content:center;font-size:2.2rem;gap:6px;}
+.img-placeholder span{font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);}
+.product-title{font-size:.86rem;text-transform:uppercase;height:36px;overflow:hidden;margin-bottom:8px;color:var(--text-main);line-height:1.2;position:relative;z-index:2;}
+.product-price{font-size:1.35rem;color:var(--text-main);margin-bottom:13px;font-style:italic;position:relative;z-index:2;}
+.btn-add{background:rgba(0,0,0,.04);color:var(--text-main);border:1px solid var(--border-light);padding:10px;border-radius:8px;width:100%;font-weight:bold;text-transform:uppercase;cursor:pointer;transition:all .2s;font-size:.78rem;position:relative;z-index:3;}
+.btn-add:hover{background:var(--text-main);color:white;border-color:transparent;}
+.search-results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:24px;margin-top:20px;}
+
+/* ── FLOATING ELEMENTS ── */
+.ruota-widget-flottante{position:fixed;bottom:30px;right:30px;width:75px;height:75px;background:#fff;border:2px solid var(--text-main);border-radius:50%;box-shadow:0 10px 30px rgba(0,0,0,.08);cursor:pointer;z-index:990;display:flex;align-items:center;justify-content:center;animation:ruotaSpin 12s linear infinite;}
+.ruota-widget-flottante:hover{animation-play-state:paused;transform:scale(1.1);}
+.ruota-widget-flottante svg{width:80%;height:80%;}
+@keyframes ruotaSpin{to{transform:rotate(360deg)}}
+.cart-panel{position:fixed;bottom:120px;right:30px;width:360px;background:#fff;border:3px solid transparent;border-image:linear-gradient(135deg,var(--reshiram-red),var(--reshiram-orange)) 1;padding:22px;box-shadow:0 25px 50px rgba(239,68,68,.15);z-index:100;display:none;}
+.cart-title{font-size:1.2rem;margin:0 0 15px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #f1f5f9;padding-bottom:8px;}
+.cart-title span{background:linear-gradient(90deg,var(--reshiram-red),var(--reshiram-orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.cart-items{list-style:none;padding:0;margin:0;max-height:180px;overflow-y:auto;font-family:system-ui;font-size:.85rem;}
+.cart-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border-light);align-items:center;}
+.remove-btn{background:none;border:none;color:var(--yugi);cursor:pointer;font-weight:bold;font-size:1rem;}
+.cart-total{font-size:1.3rem;text-align:right;margin:20px 0 15px;font-style:italic;font-weight:bold;}
+.btn-checkout{background:linear-gradient(135deg,var(--reshiram-red),var(--reshiram-orange));color:white;border:none;padding:14px;border-radius:8px;font-weight:900;width:100%;text-transform:uppercase;cursor:pointer;transition:opacity .2s;}
+.btn-checkout:hover{opacity:.9;}
+.gengar-bottom-peeker{position:fixed;bottom:-10px;left:20px;width:80px;height:80px;z-index:900;opacity:.85;transform:translateY(15px);transition:transform .3s;cursor:pointer;}
+.gengar-bottom-peeker:hover{transform:translateY(0);}
+.pulls-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;margin-top:30px;}
+.pull-card{background:#fff;border:1px solid var(--border-light);border-radius:20px;padding:20px;}
+
+/* ── MODALI COMUNI ── */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,.98);z-index:999;display:none;overflow-y:auto;padding:70px 20px 40px;}
+.modal-close-x{position:fixed;top:20px;right:28px;background:rgba(255,255,255,.9);border:1px solid var(--border-light);color:var(--text-main);font-size:1.8rem;cursor:pointer;z-index:1001;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:all .2s;}
+.modal-close-x:hover{background:var(--text-main);color:white;transform:scale(1.1);}
+
+/* ── RUOTA ── */
+.ruota-modal-layout{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;background:#fff;border:1px solid var(--border-light);border-radius:24px;padding:40px;max-width:900px;margin:0 auto;box-shadow:0 20px 50px rgba(0,0,0,.05);}
+.ruota-input{width:100%;background:#f1f5f9;border:1px solid var(--border-light);padding:14px;border-radius:10px;font-size:1rem;outline:none;margin-bottom:15px;}
+.btn-registrati-ruota{width:100%;background:var(--text-main);color:white;border:none;padding:14px;border-radius:10px;font-weight:bold;cursor:pointer;text-transform:uppercase;}
+.ruota-visual-container{display:flex;flex-direction:column;align-items:center;position:relative;}
+.ruota-freccia{width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:25px solid var(--text-main);position:absolute;top:-10px;z-index:12;}
+.ruota-cerchio-box{width:300px;height:300px;border-radius:50%;border:6px solid var(--text-main);overflow:hidden;}
+#wheel-svg{width:100%;height:100%;transform:rotate(0deg);transition:transform 4s cubic-bezier(.15,.65,.1,1);}
+.btn-gira-azione{margin-top:25px;padding:12px 30px;font-family:'Arial Black',sans-serif;border-radius:30px;font-size:1rem;text-transform:uppercase;border:none;cursor:not-allowed;background:#e2e8f0;color:#94a3b8;transition:all .3s;}
+.btn-gira-azione.attivo{cursor:pointer;background:var(--neon-green);color:white;}
+
+/* ── PRODUCT MODAL ── */
+.modal-content-inner{max-width:1100px;margin:0 auto;}
+.modal-main-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:50px;}
+.modal-preview-box{background:#fff;border:1px solid var(--border-light);border-radius:24px;padding:20px;height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.modal-preview-box img{max-width:100%;max-height:100%;object-fit:contain;}
+.modal-product-title{font-family:'Arial Black',sans-serif;font-size:2.2rem;line-height:1.1;margin:0 0 15px;}
+.modal-product-price{font-size:2.2rem;font-family:'Arial Black',sans-serif;margin-bottom:25px;}
+
+/* ── CHECKOUT ── */
+.checkout-container{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;}
+.checkout-main-title{font-family:'Arial Black',sans-serif;font-style:italic;font-size:2.2rem;grid-column:1/-1;margin:0;text-transform:uppercase;border-bottom:2px solid var(--border-light);padding-bottom:15px;}
+.checkout-section{background:#fff;border:1px solid var(--border-light);border-radius:20px;padding:25px;}
+.checkout-heading{font-family:'Arial Black',sans-serif;font-size:1.2rem;margin-bottom:20px;text-transform:uppercase;}
+.form-group{margin-bottom:15px;}
+.form-group label{display:block;font-size:.85rem;color:var(--text-muted);margin-bottom:6px;font-weight:bold;text-transform:uppercase;}
+.form-input{width:100%;background:#f1f5f9;border:1px solid var(--border-light);border-radius:8px;padding:12px;font-size:.95rem;outline:none;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
+.payment-methods{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.pay-method-card{background:#f1f5f9;border:1px solid var(--border-light);border-radius:10px;padding:14px;text-align:center;cursor:pointer;font-weight:bold;}
+.pay-method-card.active{border-color:var(--text-main);background:var(--text-main);color:white;}
+.summary-item{display:flex;justify-content:space-between;font-size:.9rem;padding:8px 0;color:var(--text-muted);}
+.summary-total{display:flex;justify-content:space-between;font-size:1.5rem;font-family:'Arial Black',sans-serif;font-style:italic;margin-top:20px;padding-top:15px;border-top:1px solid var(--border-light);}
+.btn-pay-submit{background:var(--text-main);color:white;border:none;padding:16px;border-radius:12px;font-family:'Arial Black',sans-serif;font-size:1.1rem;width:100%;text-transform:uppercase;cursor:pointer;margin-top:20px;}
+.btn-abort-checkout{background:none;border:1px solid var(--border-light);color:var(--text-muted);padding:10px;border-radius:8px;width:100%;margin-top:12px;cursor:pointer;font-weight:bold;}
+
+/* ════════════════════════════════════
+   PAGINA GENGAR — TUTTO TEMATIZZATO
+   ════════════════════════════════════ */
+#gengar-page{display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:999;overflow-y:auto;background:var(--gengar-dark);}
+
+/* Particelle fluttuanti sfondo */
+.gengar-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
+.gengar-particles span{position:absolute;border-radius:50%;background:var(--gengar-light);opacity:0;animation:floatP var(--dur,8s) ease-in-out infinite;animation-delay:var(--del,0s);}
+@keyframes floatP{0%{transform:translateY(110vh) scale(0);opacity:0}20%{opacity:.25}80%{opacity:.1}100%{transform:translateY(-10vh) scale(1.2);opacity:0}}
+
+/* Header Gengar page */
+.gp-topbar{position:sticky;top:0;z-index:10;background:rgba(59,7,100,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(168,85,247,.3);padding:15px 40px;display:flex;justify-content:space-between;align-items:center;}
+.gp-brand{font-size:1.6rem;font-style:italic;text-transform:uppercase;background:linear-gradient(90deg,#e9d5ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.gp-back-btn{background:rgba(168,85,247,.2);border:1px solid var(--gengar-glow);color:var(--gengar-glow);padding:10px 20px;border-radius:20px;font-family:'Arial Black',sans-serif;font-size:.8rem;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.gp-back-btn:hover{background:var(--gengar-light);color:white;}
+
+.gp-body{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:0 40px 80px;}
+
+/* Hero Gengar */
+.gp-hero{padding:60px 0 40px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.gp-hero-text h1{font-size:4.5rem;line-height:.9;text-transform:uppercase;font-style:italic;margin:0 0 20px;background:linear-gradient(135deg,#f3e8ff 0%,#c084fc 50%,#7c3aed 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 30px rgba(192,132,252,.4));}
+.gp-hero-text p{font-family:system-ui,sans-serif;font-size:1.1rem;line-height:1.65;color:#d8b4fe;margin-bottom:30px;}
+.gp-hero-art{display:flex;align-items:center;justify-content:center;position:relative;}
+.gp-hero-gengar-svg{width:340px;height:340px;filter:drop-shadow(0 0 40px rgba(168,85,247,.6));animation:breathe 4s ease-in-out infinite;}
+@keyframes breathe{0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.04) translateY(-8px)}}
+
+/* Sezione storia anime */
+.gp-section-title{font-size:2.2rem;text-transform:uppercase;font-style:italic;margin:0 0 8px;background:linear-gradient(90deg,#e9d5ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.gp-section-sub{font-family:system-ui,sans-serif;font-size:.95rem;color:#a78bfa;margin-bottom:30px;}
+
+/* Timeline storia */
+.gp-timeline{position:relative;padding-left:30px;margin-bottom:60px;}
+.gp-timeline::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--gengar-light),var(--gengar-purple),transparent);}
+.gp-timeline-item{position:relative;margin-bottom:30px;}
+.gp-timeline-item::before{content:"👻";position:absolute;left:-28px;top:2px;font-size:.9rem;}
+.gp-timeline-card{background:rgba(109,33,168,.25);border:1px solid rgba(168,85,247,.3);border-radius:16px;padding:22px;backdrop-filter:blur(8px);}
+.gp-timeline-card h4{font-size:1rem;text-transform:uppercase;color:#e9d5ff;margin:0 0 8px;}
+.gp-timeline-card p{font-family:system-ui,sans-serif;font-size:.9rem;line-height:1.6;color:#c4b5fd;margin:0;}
+
+/* Artwork gallery strip */
+.gp-artwork-strip{display:flex;gap:20px;overflow-x:auto;scrollbar-width:none;padding:10px 0 20px;margin-bottom:60px;}
+.gp-artwork-strip::-webkit-scrollbar{display:none;}
+.gp-artwork-item{flex:0 0 200px;height:220px;border-radius:16px;border:1px solid rgba(168,85,247,.4);overflow:hidden;position:relative;cursor:pointer;transition:transform .3s,box-shadow .3s;}
+.gp-artwork-item:hover{transform:scale(1.05);box-shadow:0 0 30px rgba(168,85,247,.5);}
+.gp-artwork-item img{width:100%;height:100%;object-fit:cover;}
+.gp-artwork-fallback{width:100%;height:100%;background:linear-gradient(135deg,rgba(109,33,168,.6),rgba(59,7,100,.8));display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:3rem;gap:8px;}
+.gp-artwork-fallback span{font-family:system-ui,sans-serif;font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:#a78bfa;}
+
+/* TOP 10 CARTE PIÙ COSTOSE */
+.gp-top10-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px;margin-bottom:60px;}
+.gp-card-item{background:rgba(59,7,100,.5);border:1px solid rgba(168,85,247,.35);border-radius:18px;padding:20px;transition:all .3s;position:relative;overflow:hidden;cursor:pointer;}
+.gp-card-item::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(168,85,247,.1),transparent);opacity:0;transition:opacity .3s;}
+.gp-card-item:hover{border-color:var(--gengar-light);box-shadow:0 8px 30px rgba(168,85,247,.3);transform:translateY(-4px);}
+.gp-card-item:hover::before{opacity:1;}
+.gp-card-rank{position:absolute;top:14px;right:14px;background:var(--gengar-light);color:white;font-family:'Arial Black',sans-serif;font-size:.75rem;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.gp-card-img-box{background:rgba(109,33,168,.3);border-radius:12px;height:160px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;overflow:hidden;font-size:3rem;}
+.gp-card-img-box img{width:100%;height:100%;object-fit:contain;padding:6px;}
+.gp-card-name{font-size:.9rem;text-transform:uppercase;color:#e9d5ff;margin:0 0 4px;line-height:1.2;}
+.gp-card-set{font-family:system-ui,sans-serif;font-size:.78rem;color:#a78bfa;margin-bottom:10px;}
+.gp-card-price-row{display:flex;justify-content:space-between;align-items:center;}
+.gp-card-price{font-size:1.3rem;font-style:italic;color:#c084fc;}
+.gp-card-grade{background:rgba(168,85,247,.2);border:1px solid rgba(168,85,247,.4);color:#e9d5ff;padding:3px 8px;border-radius:6px;font-size:.7rem;font-family:'Arial Black',sans-serif;}
+
+/* PRODOTTI TEMA GENGAR */
+.gp-prodotti-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:24px;margin-bottom:60px;}
+.gp-prod-card{background:rgba(59,7,100,.4);border:1px solid rgba(168,85,247,.3);border-radius:20px;padding:18px;cursor:pointer;transition:all .3s;}
+.gp-prod-card:hover{border-color:var(--gengar-glow);box-shadow:0 8px 25px rgba(168,85,247,.3);transform:translateY(-5px);}
+.gp-prod-img{background:rgba(109,33,168,.25);border-radius:12px;height:160px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;overflow:hidden;font-size:2.5rem;}
+.gp-prod-name{font-size:.88rem;text-transform:uppercase;color:#e9d5ff;margin-bottom:6px;line-height:1.2;}
+.gp-prod-price{font-size:1.3rem;font-style:italic;color:#c084fc;margin-bottom:12px;}
+.gp-prod-btn{background:rgba(168,85,247,.2);border:1px solid var(--gengar-glow);color:var(--gengar-glow);padding:10px;border-radius:8px;width:100%;font-weight:bold;text-transform:uppercase;cursor:pointer;font-size:.78rem;transition:all .2s;}
+.gp-prod-btn:hover{background:var(--gengar-light);color:white;border-color:transparent;}
+
+/* Artwork decorativi inline */
+.gp-deco-gengar{opacity:.08;position:absolute;pointer-events:none;}
+
+@media(max-width:900px){
+  .hero-caos,.ruota-modal-layout,.checkout-container,.modal-main-layout,.gp-hero{grid-template-columns:1fr;}
+  .top-interface{padding:15px 20px;}
+  .gengar-bg-icon,.gp-deco-gengar{display:none;}
+  .gp-body{padding:0 20px 60px;}
+  .gp-topbar{padding:15px 20px;}
+}
+</style>
+</head>
+<body>
+
+<div class="top-interface">
+  <div class="top-left-area">
+    <a href="https://tiktok.com" target="_blank" class="top-social-icon tiktok">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.02 1.63 4.18 1.13 1.2 2.7 1.94 4.34 2.1v3.58c-1.39-.11-2.76-.64-3.88-1.51-.7-.54-1.28-1.24-1.68-2.04v7.46c0 2.22-.64 4.45-2.04 6.13-1.61 2.01-4.22 3.14-6.78 2.92-2.71-.16-5.26-1.92-6.37-4.42-1.35-2.86-.71-6.52 1.52-8.69 1.76-1.78 4.41-2.45 6.81-1.74v3.66c-1.42-.45-3.05-.12-4.14.92-1.12 1.02-1.51 2.76-.94 4.2.51 1.41 2.01 2.39 3.51 2.37 1.75-.05 3.23-1.46 3.44-3.2.06-.46.04-.93.04-1.39V0h.04z"/></svg>
+    </a>
+    <a href="https://instagram.com" target="_blank" class="top-social-icon instagram">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <div class="mini-brand" onclick="chiudiRicercaEHome()">La Casa del Pull</div>
+    <svg class="gengar-header" viewBox="0 0 100 100" fill="none">
+      <path d="M20 40L30 15L45 30L55 30L70 15L80 40L90 60L75 85L25 85L10 60Z" fill="var(--gengar-purple)"/>
+      <polygon points="35,45 45,50 42,42" fill="red"/>
+      <polygon points="65,45 55,50 58,42" fill="red"/>
+      <path d="M30 65Q50 85 70 65Q50 70 30 65" fill="white"/>
+    </svg>
+  </div>
+  <div class="search-container">
+    <input type="text" id="main-search-bar" class="search-input" placeholder="Cerca nel magazzino..." onkeyup="eseguiRicercaReale()">
+  </div>
+  <div class="top-right-logo-area">
+    <button class="cta-cart-top" onclick="forzaCarrello()">🛒 Bottino (<span id="count-top">0</span>)</button>
+    <img class="caos-nav-logo" src="https://www.ilcovodelnerd.com/wp-content/uploads/2026/04/IlCovodelNerd-2026-04-02T172323.972.jpg" alt="Caos Nascente"
+         onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 50 50%22><rect width=%2250%22 height=%2250%22 rx=%2225%22 fill=%22%230f172a%22/><text x=%2250%25%22 y=%2255%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 font-size=%2212%22 fill=%22white%22 font-weight=%22bold%22>CN</text></svg>'">
+  </div>
+</div>
+
+<div id="sezione-ricerca" class="section-integrated">
+  <div class="section-width">
+    <div class="section-title" style="color:var(--magic);display:flex;justify-content:space-between;align-items:center;">
+      <span>Risultati di Ricerca</span>
+      <button style="background:var(--text-main);color:white;border:none;padding:8px 16px;border-radius:20px;font-weight:bold;cursor:pointer;" onclick="chiudiRicercaEHome()">Chiudi ✕</button>
+    </div>
+    <div class="section-subtitle" id="search-feedback">Prodotti trovati:</div>
+    <div id="search-results-container" class="search-results-grid"></div>
+  </div>
+</div>
+
+<div id="main-homepage-content">
+
+  <section class="hero-caos">
+    <div class="fog-container"><div class="fog-layer fog-1"></div><div class="fog-layer fog-2"></div></div>
+    <div class="hero-text">
+      <h1>Pokémon<br>Caos Nascente</h1>
+      <p>Mega Greninja-ex scatena il caos a Luminopoli! La nuova espansione Megaevoluzione — uscita il 22 maggio 2026 — porta oltre 120 carte con Mega Pyroar-ex, Mega Floette-ex e Mega Dragalge-ex. Carta promo Fennekin Olografica esclusiva nell'ETB ufficiale.</p>
+      <button class="btn-add" onclick="aggiungiID(1)" style="max-width:310px;padding:16px;background:#fff;color:var(--text-main);font-size:1rem;border:none;box-shadow:0 4px 15px rgba(0,0,0,.3);">ETB Caos Nascente — 59.90€ →</button>
+    </div>
+    <div class="hero-img-box">
+      <img src="https://www.ilcovodelnerd.com/wp-content/uploads/2026/04/IlCovodelNerd-2026-04-02T172323.972.jpg" alt="ETB Caos Nascente"
+           onerror="this.parentElement.innerHTML='<div style=\'color:#94a3b8;font-size:.85rem;text-transform:uppercase;text-align:center;\'>⚡<br>ETB Caos Nascente<br>Mega Greninja-ex</div>'">
+    </div>
+  </section>
+
+  <div class="navigation-container">
+    <div class="game-nav">
+      <button class="nav-btn" onclick="scroll2('sezione-pokemon')">Pokémon</button>
+      <button class="nav-btn" onclick="scroll2('sezione-yugioh')">Yu-Gi-Oh!</button>
+      <button class="nav-btn" onclick="scroll2('sezione-onepiece')">One Piece</button>
+      <button class="nav-btn" onclick="scroll2('sezione-magic')">Magic</button>
+      <button class="nav-btn" onclick="apriRuota()" style="border-color:var(--neon-green);color:var(--neon-green);">🎰 Ruota</button>
+    </div>
+  </div>
+
+  <div class="gengar-promo-banner">
+    <div class="gengar-box">
+      <svg class="gengar-bg-icon" viewBox="0 0 100 100" fill="none">
+        <path d="M20 40L30 15L45 30L55 30L70 15L80 40L90 60L75 85L25 85L10 60Z" fill="rgba(255,255,255,.2)"/>
+        <polygon points="35,45 45,50 42,42" fill="white"/>
+        <polygon points="65,45 55,50 58,42" fill="white"/>
+      </svg>
+      <div class="gengar-box-text">
+        <h2>Spazio Ombra: Il Re dei Fantasmi</h2>
+        <p>La storia di Gengar nell'anime, le 10 carte più costose al mondo, la collezione esclusiva. Entra nel suo regno oscuro.</p>
+      </div>
+      <button class="gengar-btn-cta" onclick="apriGengarPage()">Scopri la Storia ➔</button>
+    </div>
+  </div>
+
+  <div id="sezione-pokemon" class="section-integrated">
+    <div class="section-width">
+      <div class="section-title" style="color:var(--pkmn);">Pokémon TCG</div>
+      <div class="section-subtitle">Ultime uscite 2026: Caos Nascente, Ascesa Eroica, Equilibrio Perfetto e Buio Pesto in preordine.</div>
+      <div class="carousel-container">
+        <button class="arrow-btn arrow-left" onclick="scorri('track-pkmn',-300)">❬</button>
+        <div id="track-pkmn" class="carousel-track"></div>
+        <button class="arrow-btn arrow-right" onclick="scorri('track-pkmn',300)">❭</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="sezione-yugioh" class="section-integrated">
+    <div class="section-width">
+      <div class="section-title" style="color:var(--yugi);">Yu-Gi-Oh! TCG</div>
+      <div class="section-subtitle">2026: Burst Protocol, Battles of Legend Glorious Gallery, Spirit Charmers e Quarter Century Stampede.</div>
+      <div class="carousel-container">
+        <button class="arrow-btn arrow-left" onclick="scorri('track-yugi',-300)">❬</button>
+        <div id="track-yugi" class="carousel-track"></div>
+        <button class="arrow-btn arrow-right" onclick="scorri('track-yugi',300)">❭</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="sezione-onepiece" class="section-integrated">
+    <div class="section-width">
+      <div class="section-title" style="color:var(--onepiece);">One Piece CG</div>
+      <div class="section-subtitle">2025-2026: OP-13 Carrying On His Will, OP-14 Azure Sea's Seven, OP-15 Kami's Island, OP-16 Time of Battle.</div>
+      <div class="carousel-container">
+        <button class="arrow-btn arrow-left" onclick="scorri('track-op',-300)">❬</button>
+        <div id="track-op" class="carousel-track"></div>
+        <button class="arrow-btn arrow-right" onclick="scorri('track-op',300)">❭</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="sezione-magic" class="section-integrated">
+    <div class="section-width">
+      <div class="section-title" style="color:var(--magic);">Magic: The Gathering</div>
+      <div class="section-subtitle">2025-2026: Aetherdrift, Final Fantasy, Tarkir Dragonstorm, Assassin's Creed e Commander.</div>
+      <div class="carousel-container">
+        <button class="arrow-btn arrow-left" onclick="scorri('track-mtg',-300)">❬</button>
+        <div id="track-mtg" class="carousel-track"></div>
+        <button class="arrow-btn arrow-right" onclick="scorri('track-mtg',300)">❭</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="sezione-godpulls" class="section-integrated">
+    <div class="section-width">
+      <div class="section-title" style="color:var(--neon-green);">🏆 God Pulls della Community</div>
+      <div class="section-subtitle">I migliori spacchettamenti de La Casa del Pull!</div>
+      <div class="pulls-grid">
+        <div class="pull-card"><strong>Marco R.</strong> <span style="color:var(--neon-green)">OP-15 Box</span><p style="font-style:italic;color:var(--text-muted);margin-top:8px;">"Manga Rare Enel al primo box di Kami's Island ordinato qui. Imballaggio impeccabile!"</p></div>
+        <div class="pull-card"><strong>Giulia F.</strong> <span style="color:var(--neon-green)">Caos Nascente ETB</span><p style="font-style:italic;color:var(--text-muted);margin-top:8px;">"Mega Greninja-ex Special Art al secondo ETB. Negozio assolutamente fidato!"</p></div>
+        <div class="pull-card"><strong>Luca B.</strong> <span style="color:var(--neon-green)">Aetherdrift Collector</span><p style="font-style:italic;color:var(--text-muted);margin-top:8px;">"Serialized card in un singolo Collector Booster. Spedizione in 24h come promesso!"</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ruota-widget-flottante" onclick="apriRuota()" title="Gira la Ruota!">
+  <svg viewBox="0 0 200 200"><g transform="translate(100,100)"><path d="M0,0L0,-100A100,100 0,0,1,86.6,-50Z" fill="#eab308"/><path d="M0,0L86.6,-50A100,100 0,0,1,86.6,50Z" fill="#dc2626"/><path d="M0,0L86.6,50A100,100 0,0,1,0,100Z" fill="#ea580c"/><path d="M0,0L0,100A100,100 0,0,1,-86.6,50Z" fill="#0284c7"/><path d="M0,0L-86.6,50A100,100 0,0,1,-86.6,-50Z" fill="#0f172a"/><path d="M0,0L-86.6,-50A100,100 0,0,1,0,-100Z" fill="#64748b"/></g><circle cx="100" cy="100" r="15" fill="#fff"/></svg>
+</div>
+
+<div id="cart-sidebar" class="cart-panel">
+  <h3 class="cart-title"><span>🛒 Il tuo Bottino</span><button class="remove-btn" onclick="forzaCarrello()" style="color:var(--text-main)">✕</button></h3>
+  <ul id="cart-list" class="cart-items"></ul>
+  <div class="cart-total">Totale: <span id="cart-total-val">0.00€</span></div>
+  <button class="btn-checkout" onclick="apriCassa()">Procedi alle Casse ➔</button>
+</div>
+
+<svg class="gengar-bottom-peeker" onclick="apriGengarPage()" viewBox="0 0 100 100" fill="none" title="Scopri la storia di Gengar!">
+  <path d="M20 40L30 15L45 30L55 30L70 15L80 40L90 60L75 85L25 85L10 60Z" fill="var(--gengar-purple)"/>
+  <polygon points="35,45 45,50 42,42" fill="red"/>
+  <polygon points="65,45 55,50 58,42" fill="red"/>
+  <path d="M30 65Q50 85 70 65Q50 70 30 65" fill="white"/>
+</svg>
+
+<div id="gengar-page">
+  <div class="gengar-particles" id="gp-particles"></div>
+
+  <div class="gp-topbar">
+    <div class="gp-brand">👻 Gengar Universe — La Casa del Pull</div>
+    <button class="gp-back-btn" onclick="chiudiGengarPage()">← Torna al Negozio</button>
+  </div>
+
+  <div class="gp-body">
+
+    <div class="gp-hero">
+      <div class="gp-hero-text">
+        <h1>Il Re dei<br>Pokémon<br>Fantasma</h1>
+        <p>Nato dall'ombra di ogni essere umano deceduto, Gengar è da sempre il Pokémon di tipo Spettro più iconico e temuto. Dalla prima apparizione nel 1997 fino alle moderne Megaevoluzioni, la sua storia nell'anime è un viaggio attraverso oscurità, legami profondi e battaglie leggendarie che hanno definito un'intera generazione di Allenatori.</p>
+        <button style="background:linear-gradient(135deg,var(--gengar-purple),var(--gengar-mid));color:white;border:none;padding:16px 32px;border-radius:14px;font-family:'Arial Black',sans-serif;font-size:.95rem;text-transform:uppercase;cursor:pointer;box-shadow:0 8px 25px rgba(109,33,168,.4);" onclick="aggiungiIDGengar(25)">
+          🛒 Aggiungi ETB Gengar Speciale — 64.90€
+        </button>
+      </div>
+      <div class="gp-hero-art">
+        <img class="gp-hero-gengar-svg" src="https://images.pokemontcg.io/swsh12pt5/104_hires.png" alt="Gengar VMAX Alt Art" style="object-fit: contain;">
+      </div>
+    </div>
+
+    <div class="gp-section-title">📺 La Storia nell'Anime Pokémon</div>
+    <div class="gp-section-sub">Dal 1997 ad oggi — ogni apparizione fondamentale del Re dei Fantasmi</div>
+
+    <div class="gp-timeline">
+      <div class="gp-timeline-item">
+        <div class="gp-timeline-card">
+          <h4>1997 — La Prima Apparizione (Ep. 1, Indigo League)</h4>
+          <p>Gengar appare sin dalla primissima sigla animata giapponese al fianco di Nidorino, diventando immediatamente il simbolo del TCG e dell'anime. La sua silhouette nella notte è una delle immagini più iconiche della storia dei media Pokémon.</p>
+        </div>
+      </div>
+      <div class="gp-timeline-item">
+        <div class="gp-timeline-card">
+          <h4>1997 — Vs. Clefable (La Torre Lavanda, Ep. 23)</h4>
+          <p>Il celebre episodio "Clefairy e la Luna di Pietra" vede uno spettrale Gengar aleggiare nella Torre Lavanda, il luogo dove riposano i Pokémon defunti. È l'episodio che cementa il suo status di essere oscuro e misterioso, radicato nella mitologia giapponese degli spiriti.</p>
+        </div>
+      </div>
+      <div class="gp-timeline-item">
+        <div class="gp-timeline-card">
+          <h4>2000 — Il Gengar di Agatha (Lega Arancio)</h4>
+          <p>Agatha, membro dell'Elite Four di Kanto, usa un potentissimo Gengar come asso nella manica. La battaglia contro Ash evidenzia le devastanti mosse spettrali come Notte Buia e Ipnosi, rivelando al pubblico la profondità tattica del Pokémon.</p>
+        </div>
+      </div>
+      <div class="gp-timeline-item">
+        <div class="gp-timeline-card">
+          <h4>2004 — Pokémon: Destiny Deoxys (Film 7)</h4>
+          <p>Un gruppo di Gengar appare nella città di LaRousse durante l'invasione di Deoxys, diventando involontariamente parte della crisi. La scena in cui emergono dall'ombra degli edifici illuminati è considerata una delle più visivamente potenti dell'intera saga cinematografica.</p>
+        </div>
+      </div>
+      <div class="gp-timeline-item">
+        <div class="gp-timeline-card">
+          <h4>2019 — Il Gengar di Ash! (Viaggio verso la Perfezione, Ep. 49)</h4>
+          <p>Uno dei momenti più amati del fandom: Ash cattura un Gengar che terrorizzava una casa abbandonata. Il Pokémon, che aveva perso il suo precedente allenatore, finalmente trova un nuovo scopo accanto ad Ash. Diventa uno dei compagni più forti e fedeli del protagonista nel suo viaggio finale verso la World Coronation Series.</p>
+        </div>
+      </div>
+      <div class="gp-timeline-item">
+        <div class="gp-timeline-card">
+          <h4>2021 — Mega Gengar nella World Coronation Series</h4>
+          <p>Il Gengar di Ash Megaevolve per la prima volta nell'epica battaglia contro Leon, diventando Mega Gengar. La trasformazione è accompagnata da una delle colonne sonore più emozionanti dell'anime moderno. La scena genera milioni di visualizzazioni sui social, rilanciando l'interesse per le carte Mega di questo set.</p>
+        </div>
+      </div>
+      <div class="gp-timeline-item">
+        <div class="gp-timeline-card">
+          <h4>2023 — Horizons e il Gengar di Dot</h4>
+          <p>In Pokémon Horizons, la nuova protagonista Dot è accompagnata da un Gengar fin dai primi episodi. Il Pokémon diventa simbolo dell'introversione e della timidezza della ragazza, riflettendo il tema centrale della serie: la connessione autentica supera la paura del mondo esterno.</p>
+        </div>
+      </div>
+      <div class="gp-timeline-item">
+        <div class="gp-timeline-card">
+          <h4>2026 — Caos Nascente: Il Ritorno della Mega Form</h4>
+          <p>Con l'espansione TCG Caos Nascente, Mega Gengar-ex torna protagonista in una delle illustrazioni più acclamate degli ultimi anni. La Special Illustration Rare lo mostra nell'atto di emergere dall'ombra di un'intera città, un tributo visivo a trent'anni di presenze spettrali nell'anime e nei media Pokémon.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gp-section-title">🎨 Artwork & Illustrazioni</div>
+    <div class="gp-section-sub">Le illustrazioni più iconiche di Gengar attraverso le espansioni</div>
+    <div class="gp-artwork-strip">
+      <div class="gp-artwork-item" title="Gengar Fossil 1st Ed. 1999">
+        <div class="gp-artwork-fallback">👻<span>Fossil 1999</span></div>
+      </div>
+      <div class="gp-artwork-item" title="Gengar Skyridge Holo">
+        <div class="gp-artwork-fallback">🌌<span>Skyridge Holo</span></div>
+      </div>
+      <div class="gp-artwork-item" title="Dark Gengar Neo Destiny">
+        <div class="gp-artwork-fallback">🌑<span>Dark Gengar</span></div>
+      </div>
+      <div class="gp-artwork-item" title="Gengar EX FireRed LeafGreen">
+        <div class="gp-artwork-fallback">🔥<span>FRLG ex</span></div>
+      </div>
+      <div class="gp-artwork-item" title="Gengar & Mimikyu GX Team Up">
+        <div class="gp-artwork-fallback">🎭<span>Mimikyu GX</span></div>
+      </div>
+      <div class="gp-artwork-item" title="Gengar VMAX Fusion Strike Alt Art">
+        <div class="gp-artwork-fallback">⚡<span>VMAX Alt Art</span></div>
+      </div>
+      <div class="gp-artwork-item" title="Mega Gengar ex Ascended Heroes SIR">
+        <div class="gp-artwork-fallback">💜<span>SIR 2025</span></div>
+      </div>
+      <div class="gp-artwork-item" title="Gengar Masaki Promo Japan 1999">
+        <div class="gp-artwork-fallback">🇯🇵<span>Masaki Promo</span></div>
+      </div>
+    </div>
+
+    <div class="gp-section-title">💰 Top 10 Carte Gengar Più Costose</div>
+    <div class="gp-section-sub">Prezzi di mercato aggiornati — fonti: Goldin, Pack Magik, PSA Population Report</div>
+    <div class="gp-top10-grid">
+
+      <div class="gp-card-item">
+        <div class="gp-card-rank">1</div>
+        <div class="gp-card-img-box">👻</div>
+        <div class="gp-card-name">Gengar Masaki Promo Holo — 1999 Japan</div>
+        <div class="gp-card-set">Masaki Campaign Exclusive • TAG 10</div>
+        <div class="gp-card-price-row"><span class="gp-card-price">~$101.260</span><span class="gp-card-grade">TAG 10</span></div>
+      </div>
+
+      <div class="gp-card-item">
+        <div class="gp-card-rank">2</div>
+        <div class="gp-card-img-box">👻</div>
+        <div class="gp-card-name">Gengar Masaki Promo Holo — 1999 Japan</div>
+        <div class="gp-card-set">Masaki Campaign Exclusive • PSA 10</div>
+        <div class="gp-card-price-row"><span class="gp-card-price">~$96.000</span><span class="gp-card-grade">PSA 10</span></div>
+      </div>
+
+      <div class="gp-card-item">
+        <div class="gp-card-rank">3</div>
+        <div class="gp-card-img-box">👻</div>
+        <div class="gp-card-name">Gengar Masaki Promo Holo — 1999 Japan</div>
+        <div class="gp-card-set">Masaki Campaign Exclusive • BGS 9.5</div>
+        <div class="gp-card-price-row"><span class="gp-card-price">~$90.000</span><span class="gp-card-grade">BGS 9.5</span></div>
+      </div>
+
+      <div class="gp-card-item">
+        <div class="gp-card-rank">4</div>
+        <div class="gp-card-img-box">💜</div>
+        <div class="gp-card-name">Mega Gengar ex SIR — Ascended Heroes 284/217</div>
+        <div class="gp-card-set">Pokémon Ascended Heroes 2025 • BGS Black Label 10</div>
+        <div class="gp-card-price-row"><span class="gp-card-price">~$85.000</span><span class="gp-card-grade">BGS BL 10</span></div>
+      </div>
+
+      <div class="gp-card-item">
+        <div class="gp-card-rank">5</div>
+        <div class="gp-card-img-box">🌌</div>
+        <div class="gp-card-name">Gengar — Skyridge H9/H32 Holo</div>
+        <div class="gp-card-set">Pokémon Skyridge 2003 • PSA 10</div>
+        <div class="gp-card-price-row"><span class="gp-card-price">~$46.400</span><span class="gp-card-grade">PSA 10</span></div>
+      </div>
+
+      <div class="gp-card-item">
+        <div class="gp-card-rank">6</div>
+        <div class="gp-card-img-box">🔥</div>
+        <div class="gp-card-name">Gengar ex — FireRed &amp; LeafGreen 108/112</div>
+        <div class="gp-card-set">EX FireRed &amp; LeafGreen 2004 • PSA 10</div>
+        <div class="gp-card-price-row"><span class="gp-card-price">~$21.800</span><span class="gp-card-grade">PSA 10</span></div>
+      </div>
+
+      <div class="gp-card-item">
+        <div class="gp-card-rank">7</div>
+        <div class="gp-card-img-box">🌑</div>
+        <div class="gp-card-name">Dark Gengar [1st Edition] — Neo Destiny #6</div>
+        <div class="gp-card-set">Pokémon Neo Destiny 2002 • PSA 10</div>
+        <div class="gp-card-price-row"><span class="gp-card-price">~$14.100</span><span class="gp-card-grade">PSA 10</span></div>
+      </div>
+
+      <div class="gp-card-item">
+        <div class="gp-card-rank">8</div>
+        <div class="gp-card-img-box">🕸️</div>
+        <div class="gp-card-name">Gengar — Pokémon Web Set #47</div>
+        <div class="gp-card-set">Japanese Web Series 2002 • PSA 10</div>
+        <div class="gp-card-price-row"><span class="gp-card-price">~$14.700</span><span class="gp-card-grade">PSA 10</span></div>
+      </div>
+
+      <div class="gp-card-item">
+        <div class="gp-card-rank">9</div>
+        <div class="gp-card-img-box">🎭</div>
+        <div class="gp-card-name">Gengar &amp; Mimikyu-GX — Team Up 165/181</div>
+        <div class="gp-card-set">Pokémon Team Up 2019 • Alt Art • PSA 10</div>
+        <div class="gp-card-price-row"><span class="gp-card-price">~$8.001</span><span class="gp-card-grade">PSA 10</span></div>
+      </div>
+
+      <div class="gp-card-item">
+        <div class="gp-card-rank">10</div>
+        <div class="gp-card-img-box">⚡</div>
+        <div class="gp-card-name">Gengar VMAX — Fusion Strike 271/264 Alt Art</div>
+        <div class="gp-card-set">Pokémon Fusion Strike 2021 • PSA 10</div>
+        <div class="gp-card-price-row"><span class="gp-card-price">~$2.681</span><span class="gp-card-grade">PSA 10</span></div>
+      </div>
+
+    </div>
+
+    <div class="gp-section-title">🛒 Collezione Gengar — Prodotti Disponibili</div>
+    <div class="gp-section-sub">Slab gradate, ETB esclusivi e promo giapponesi in stock</div>
+    <div class="gp-prodotti-grid" id="gp-prod-grid"></div>
+
+    <div style="text-align:center;padding:40px 0 0;opacity:.15;">
+      <svg width="200" height="200" viewBox="0 0 400 400" fill="none">
+        <circle cx="200" cy="200" r="190" stroke="#a855f7" stroke-width="3" stroke-dasharray="12 8"/>
+        <path d="M20 200L30 175L45 190L55 190L70 175L80 200L90 220L75 245L25 245L10 220Z" fill="#6d28d9" transform="scale(4) translate(25,25)"/>
+        <polygon points="140,180 160,200 148,168" fill="#dc2626" transform="scale(4) translate(8,8)"/>
+        <polygon points="260,180 240,200 252,168" fill="#dc2626" transform="scale(4) translate(-28,8)"/>
+      </svg>
+    </div>
+
+  </div></div><div id="ruota-modal" class="modal-overlay">
+  <button class="modal-close-x" onclick="chiudiRuota()">✕</button>
+  <div class="ruota-modal-layout">
+    <div>
+      <h2 style="font-style:italic;text-transform:uppercase;margin:0 0 10px;font-size:2rem;">GIRA E VINCI!</h2>
+      <p style="color:var(--text-muted);font-size:.95rem;line-height:1.5;margin-bottom:20px;">Inserisci la tua email per sbloccare la ruota olografica. Puoi vincere sconti esclusivi o bustine gratis!</p>
+      <input type="email" id="ruota-email" class="ruota-input" placeholder="La tua email...">
+      <button class="btn-registrati-ruota" onclick="attivaMeccanismoRuota()">Sblocca la Ruota</button>
+    </div>
+    <div class="ruota-visual-container">
+      <div class="ruota-freccia"></div>
+      <div class="ruota-cerchio-box">
+        <svg id="wheel-svg" viewBox="0 0 200 200"><g transform="translate(100,100)"><path d="M0,0L0,-100A100,100 0,0,1,86.6,-50Z" fill="#eab308"/><path d="M0,0L86.6,-50A100,100 0,0,1,86.6,50Z" fill="#dc2626"/><path d="M0,0L86.6,50A100,100 0,0,1,0,100Z" fill="#ea580c"/><path d="M0,0L0,100A100,100 0,0,1,-86.6,50Z" fill="#0284c7"/><path d="M0,0L-86.6,50A100,100 0,0,1,-86.6,-50Z" fill="#0f172a"/><path d="M0,0L-86.6,-50A100,100 0,0,1,0,-100Z" fill="#64748b"/></g><circle cx="100" cy="100" r="18" fill="#fff"/></svg>
+      </div>
+      <button id="btn-gira-click" class="btn-gira-azione" onclick="avviaGiroRuota()">GIRA LA RUOTA</button>
+    </div>
+  </div>
+</div>
+
+<div id="product-modal" class="modal-overlay">
+  <button class="modal-close-x" onclick="chiudiProdotto()">✕</button>
+  <div class="modal-content-inner">
+    <div class="modal-main-layout">
+      <div class="modal-preview-box"><img id="modal-img" src="" alt=""></div>
+      <div>
+        <h2 id="modal-title" class="modal-product-title"></h2>
+        <div id="modal-price" class="modal-product-price"></div>
+        <p style="font-family:system-ui;color:var(--text-muted);line-height:1.6;margin-bottom:30px;">Prodotto ufficiale sigillato. Spedizione protetta con pluriball anti-urto triplo strato in tutta Italia. Garantito da La Casa del Pull.</p>
+        <button id="modal-add-btn" class="btn-add" style="padding:16px;background:var(--text-main);color:white;font-size:1rem;">Aggiungi al Bottino</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="checkout-modal" class="modal-overlay">
+  <button class="modal-close-x" onclick="chiudiCassa()">✕</button>
+  <div class="checkout-container">
+    <h1 class="checkout-main-title">🔒 Cassa Sicura</h1>
+    <div class="checkout-section">
+      <div class="checkout-heading">1. Spedizione</div>
+      <div class="form-group"><label>Nome Completo</label><input type="text" class="form-input" placeholder="Mario Rossi"></div>
+      <div class="form-group"><label>Indirizzo</label><input type="text" class="form-input" placeholder="Via Roma 12"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Città</label><input type="text" class="form-input" placeholder="Milano"></div>
+        <div class="form-group"><label>CAP</label><input type="text" class="form-input" placeholder="20100"></div>
+      </div>
+      <div class="checkout-heading" style="margin-top:30px;">2. Pagamento</div>
+      <div class="payment-methods">
+        <div class="pay-method-card active" id="method-card" onclick="selezionaPag('card')">💳 Carta</div>
+        <div class="pay-method-card" id="method-crypto" onclick="selezionaPag('crypto')">🪙 Crypto</div>
+      </div>
+      <div id="payment-fields">
+        <div class="form-group"><label>Numero Carta</label><input type="text" class="form-input" placeholder="0000 0000 0000 0000"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Scadenza</label><input type="text" class="form-input" placeholder="MM/AA"></div>
+          <div class="form-group"><label>CVC</label><input type="text" class="form-input" placeholder="123"></div>
+        </div>
+      </div>
+    </div>
+    <div class="checkout-section" style="height:fit-content;">
+      <div class="checkout-heading">Riepilogo</div>
+      <div id="checkout-summary-list"></div>
+      <div class="summary-item" style="margin-top:15px;border-top:1px solid var(--border-light);padding-top:10px;"><span>Spedizione Express</span><span style="color:var(--neon-green)">GRATIS</span></div>
+      <div class="summary-total"><span>Totale:</span><span id="checkout-total-val">0.00€</span></div>
+      <button class="btn-pay-submit" onclick="concludiOrdine()">Invia Ordine ➔</button>
+      <button class="btn-abort-checkout" onclick="chiudiCassa()">Annulla</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+// DATABASE — PRODOTTI REALI 2025-2026
+// ══════════════════════════════════════════════════
+const DB = [
+  // ── POKÉMON ─────────────────────────────────
+  { id:1,  titolo:"ETB Caos Nascente — Mega Greninja-ex", prezzo:59.90, cat:"pkmn", fomo:"USCITA 22/05/26",
+    img:"https://www.ilcovodelnerd.com/wp-content/uploads/2026/04/IlCovodelNerd-2026-04-02T172323.972.jpg", emoji:"⚡" },
+  { id:2,  titolo:"Display Box Caos Nascente 36 Buste", prezzo:179.90, cat:"pkmn", fomo:"Scorte Limitate",
+    img:"https://www.ilcovodelnerd.com/wp-content/uploads/2026/04/IlCovodelNerd-2026-04-02T172323.972.jpg", emoji:"🗃️" },
+  { id:3,  titolo:"Bustina Singola Caos Nascente", prezzo:5.90, cat:"pkmn", fomo:"Top Vendite",
+    img:"https://www.ilcovodelnerd.com/wp-content/uploads/2026/04/IlCovodelNerd-2026-04-02T172323.972.jpg", emoji:"📦" },
+  { id:4,  titolo:"ETB Ascesa Eroica (gen 2026)", prezzo:57.90, cat:"pkmn", fomo:"Disponibile",
+    img:"https://cdn.d-tech-srl.com/pokemon/pokemon-buio-pesto-set-allenatore-versione-italiano.jpg", emoji:"🦸" },
+  { id:5,  titolo:"Display Equilibrio Perfetto (mar 2026)", prezzo:169.90, cat:"pkmn", fomo:"Ultimi Pezzi",
+    img:"https://cdn.d-tech-srl.com/pokemon/pokemon-buio-pesto-set-allenatore-versione-italiano.jpg", emoji:"⚖️" },
+  { id:6,  titolo:"PREORDINE: ETB Buio Pesto — Darkrai (lug 26)", prezzo:59.90, cat:"pkmn", fomo:"PRE-ORDER",
+    img:"https://cdn.d-tech-srl.com/pokemon/pokemon-buio-pesto-set-allenatore-versione-italiano.jpg", emoji:"🌑" },
+
+  // ── YU-GI-OH! ───────────────────────────────
+  { id:7,  titolo:"Burst Protocol Booster Box (gen 2026)", prezzo:74.90, cat:"yugi", fomo:"Uscita gen 26",
+    img:"https://m.media-amazon.com/images/I/81iBPdGCsiL._AC_SL500_.jpg", emoji:"💥" },
+  { id:8,  titolo:"Spirit Charmers — The Chronicles Deck", prezzo:24.90, cat:"yugi", fomo:"Gen 2026",
+    img:"https://m.media-amazon.com/images/I/71DVQY8P2KL._AC_SL500_.jpg", emoji:"🧿" },
+  { id:9,  titolo:"Battles of Legend: Glorious Gallery Box", prezzo:89.90, cat:"yugi", fomo:"All Foil 2026",
+    img:"https://m.media-amazon.com/images/I/81R-Nb7IXUL._AC_SL500_.jpg", emoji:"✨" },
+  { id:10, titolo:"25th Anniversary Rarity Collection II Box", prezzo:99.90, cat:"yugi", fomo:"25° Anniv.",
+    img:"https://m.media-amazon.com/images/I/81iBPdGCsiL._AC_SL500_.jpg", emoji:"🥈" },
+  { id:11, titolo:"Quarter Century Stampede Booster Box 2025", prezzo:129.90, cat:"yugi", fomo:"1a Ed.",
+    img:"https://m.media-amazon.com/images/I/71kzaAGjyWL._AC_SL500_.jpg", emoji:"🔰" },
+  { id:12, titolo:"WC2026 Limited Pack (ago 2026) — Pre-order", prezzo:79.90, cat:"yugi", fomo:"PRE-ORDER",
+    img:"https://m.media-amazon.com/images/I/61BSQF6KGPL._AC_SL500_.jpg", emoji:"🏆" },
+
+  // ── ONE PIECE ───────────────────────────────
+  { id:13, titolo:"OP-15 Adventure on Kami's Island Box (apr 26)", prezzo:194.90, cat:"op", fomo:"Global Sync!",
+    img:"https://m.media-amazon.com/images/I/81pYMqbJkJL._AC_SL500_.jpg", emoji:"🌤️" },
+  { id:14, titolo:"OP-16 The Time of Battle Box (giu 26)", prezzo:189.90, cat:"op", fomo:"PRE-ORDER giu 26",
+    img:"https://m.media-amazon.com/images/I/81pYMqbJkJL._AC_SL500_.jpg", emoji:"⚔️" },
+  { id:15, titolo:"OP-14 The Azure Sea's Seven Box (nov 25)", prezzo:159.90, cat:"op", fomo:"Manga Rare Mihawk",
+    img:"https://m.media-amazon.com/images/I/81ZIRRUkO9L._AC_SL500_.jpg", emoji:"🌊" },
+  { id:16, titolo:"OP-13 Carrying On His Will 3rd Anniv. Box", prezzo:149.90, cat:"op", fomo:"3° Anniversario",
+    img:"https://m.media-amazon.com/images/I/81bxlPbxMrL._AC_SL500_.jpg", emoji:"🔥" },
+  { id:17, titolo:"PRB-02 Premium Booster Vol.2 Box", prezzo:219.90, cat:"op", fomo:"Alt Art Sanji",
+    img:"https://m.media-amazon.com/images/I/81hTpT+IZPL._AC_SL500_.jpg", emoji:"💎" },
+  { id:18, titolo:"OP-15 Bustina Singola Kami's Island", prezzo:7.90, cat:"op", fomo:"Richiestissimo",
+    img:"https://m.media-amazon.com/images/I/71A4VbD8xbL._AC_SL500_.jpg", emoji:"🏝️" },
+
+  // ── MAGIC ───────────────────────────────────
+  { id:19, titolo:"Aetherdrift Play Booster Box (feb 2026)", prezzo:149.90, cat:"mtg", fomo:"In Stock",
+    img:"https://m.media-amazon.com/images/I/81DNV3NV61._AC_SL500_.jpg", emoji:"🏎️" },
+  { id:20, titolo:"Aetherdrift Collector Booster Box", prezzo:269.90, cat:"mtg", fomo:"Foil Premium",
+    img:"https://m.media-amazon.com/images/I/81DNV4FC7Y._AC_SL500_.jpg", emoji:"✨" },
+  { id:21, titolo:"Final Fantasy MTG Play Booster Box 2025", prezzo:159.90, cat:"mtg", fomo:"Crossover",
+    img:"https://m.media-amazon.com/images/I/71mZkn0TSUL._AC_SL500_.jpg", emoji:"🗡️" },
+  { id:22, titolo:"Tarkir Dragonstorm Play Booster Box 2025", prezzo:154.90, cat:"mtg", fomo:"Draghi!",
+    img:"https://m.media-amazon.com/images/I/81l4lnkVERL._AC_SL500_.jpg", emoji:"🐉" },
+  { id:23, titolo:"Assassin's Creed Beyond Collector Booster", prezzo:239.90, cat:"mtg", fomo:"UB Collab",
+    img:"https://m.media-amazon.com/images/I/71E+Wz8-F3L._AC_SL500_.jpg", emoji:"🗡️" },
+  { id:24, titolo:"Commander Masters Precon 2025 — 4 Mazzi", prezzo:189.90, cat:"mtg", fomo:"Bundle",
+    img:"https://m.media-amazon.com/images/I/71qxVLFQiEL._AC_SL500_.jpg", emoji:"👑" },
+];
+
+// Prodotti Gengar esclusivi AGGIORNATI CON FOTO REALI
+const GENGAR_PRODS = [
+  { id:25, titolo:"ETB Speciale Gengar — La Casa del Pull Exclusive", prezzo:64.90, 
+    img:"https://static.cardmarket.com/img/560f4c1722e0e2410a7b469b76e1079d/items/290000/381525/381525.jpg",
+    desc:"9 bustine Caos Nascente + sleeve Gengar olografiche esclusive + card promo Mega Gengar-ex." },
+  { id:26, titolo:"Mega Gengar ex SIR — Raw NM/M (Ascended Heroes)", prezzo:299.00, 
+    img:"https://images.pokemontcg.io/xy4/35_hires.png",
+    desc:"Carta singola near mint non gradata. Mega Gengar ex Special Illustration Rare dall'espansione Ascended Heroes 2025." },
+  { id:27, titolo:"Gengar Fossil 1st Edition #5 — PSA 8", prezzo:450.00, 
+    img:"https://images.pokemontcg.io/f0/5_hires.png",
+    desc:"Classica del 1999, gradazione PSA 8 certificata. Una delle carte più iconiche nella storia del TCG Pokémon." },
+  { id:28, titolo:"Gengar & Mimikyu-GX Alt Art (Team Up 165) — Raw", prezzo:185.00, 
+    img:"https://images.pokemontcg.io/sm9/165_hires.png",
+    desc:"Una delle illustrazioni più amate di sempre. Condizione NM, non gradata. Ideale per grader o collezione." },
+  { id:29, titolo:"Display Gengar Deck Building Box — 6 ETB", prezzo:329.00, 
+    img:"https://static.cardmarket.com/img/1a1bd2267bca9c470876100c5c2d3d94/items/290000/381525/381525.jpg",
+    desc:"Cassa da 6 ETB Caos Nascente sigillata — ideale per rivenditori e tornei. Solo 5 unità disponibili." },
+  { id:30, titolo:"Gengar VMAX Alt Art (Fusion Strike 271) — Slab PSA9", prezzo:380.00, 
+    img:"https://images.pokemontcg.io/swsh8/271_hires.png",
+    desc:"Slab PSA graded 9. Una delle carte Gengar moderne più richieste da collezionisti e content creator." },
+];
+
+const catColors={pkmn:"#fef9c3",yugi:"#fee2e2",op:"#fff7ed",mtg:"#eff6ff"};
+const catAccent={pkmn:"var(--pkmn)",yugi:"var(--yugi)",op:"var(--onepiece)",mtg:"var(--magic)"};
+let carrello=[];
+
+window.addEventListener('DOMContentLoaded',()=>{
+  populaCaroselli();
+  populaGengarProdotti();
+  creaParticelle();
+  aggiornaCarrello();
+});
+
+function creaCardHTML(p){
+  const bg=catColors[p.cat]||'#f0f4f8';
+  const ac=catAccent[p.cat]||'#0f172a';
+  return `<div class="product-card" onclick="apriProdotto(${p.id})">
+    ${p.fomo?`<div class="fomo-badge">${p.fomo}</div>`:''}
+    <div class="img-container" style="background:${bg};">
+      <img src="${p.img}" alt="${p.titolo}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="img-placeholder" style="background:${bg};color:${ac};display:none;"><span style="font-size:3rem;">${p.emoji}</span><span>${p.cat.toUpperCase()}</span></div>
+    </div>
+    <div class="product-title">${p.titolo}</div>
+    <div class="product-price">${p.prezzo.toFixed(2)}€</div>
+    <button class="btn-add" onclick="event.stopPropagation();aggiungiID(${p.id})">Aggiungi</button>
+  </div>`;
+}
+
+// Funzione aggiornata per mostrare le immagini al posto delle emoji nei prodotti Gengar
+function populaGengarProdotti(){
+  const grid=document.getElementById('gp-prod-grid');
+  GENGAR_PRODS.forEach(p=>{
+    grid.innerHTML+=`<div class="gp-prod-card" onclick="aggiungiIDGengar(${p.id})">
+      <div class="gp-prod-img"><img src="${p.img}" alt="${p.titolo}" style="width:100%;height:100%;object-fit:contain;padding:8px;"></div>
+      <div class="gp-prod-name">${p.titolo}</div>
+      <div class="gp-prod-price">${p.prezzo.toFixed(2)}€</div>
+      <div style="font-family:system-ui;font-size:.8rem;color:#a78bfa;margin-bottom:12px;line-height:1.5;">${p.desc}</div>
+      <button class="gp-prod-btn" onclick="event.stopPropagation();aggiungiIDGengar(${p.id})">🛒 Aggiungi al Bottino</button>
+    </div>`;
+  });
+}
+
+function creaParticelle(){
+  const c=document.getElementById('gp-particles');
+  for(let i=0;i<25;i++){
+    const s=document.createElement('span');
+    const sz=Math.random()*12+4;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;--dur:${6+Math.random()*10}s;--del:${Math.random()*8}s;`;
+    c.appendChild(s);
+  }
+}
+
+function scroll2(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+function scorri(id,d){document.getElementById(id).scrollBy({left:d,behavior:'smooth'});}
+
+function aggiungiID(id){
+  const p=DB.find(x=>x.id===id);
+  if(p){carrello.push({...p,_src:'main'});aggiornaCarrello();document.getElementById('cart-sidebar').style.display='block';}
+}
+function aggiungiIDGengar(id){
+  const p=GENGAR_PRODS.find(x=>x.id===id);
+  if(p){carrello.push({...p,_src:'gengar'});aggiornaCarrello();chiudiGengarPage();document.getElementById('cart-sidebar').style.display='block';}
+}
+function rimuovi(i){carrello.splice(i,1);aggiornaCarrello();}
+function aggiornaCarrello(){
+  document.getElementById('count-top').innerText=carrello.length;
+  const ul=document.getElementById('cart-list');ul.innerHTML='';
+  let tot=0;
+  carrello.forEach((p,i)=>{tot+=p.prezzo;ul.innerHTML+=`<li class="cart-item"><span>${p.titolo}</span><span><strong>${p.prezzo.toFixed(2)}€</strong> <button class="remove-btn" onclick="rimuovi(${i})">✕</button></span></li>`;});
+  document.getElementById('cart-total-val').innerText=tot.toFixed(2)+'€';
+}
+function forzaCarrello(){const b=document.getElementById('cart-sidebar');b.style.display=b.style.display==='block'?'none':'block';}
+
+function eseguiRicercaReale(){
+  const q=document.getElementById('main-search-bar').value.toLowerCase().trim();
+  const sec=document.getElementById('sezione-ricerca');
+  if(q.length<2){sec.style.display='none';document.getElementById('main-homepage-content').style.display='block';return;}
+  const res=DB.filter(p=>p.titolo.toLowerCase().includes(q));
+  document.getElementById('search-results-container').innerHTML=res.map(creaCardHTML).join('');
+  document.getElementById('search-feedback').innerText=`Prodotti trovati: ${res.length}`;
+  sec.style.display='block';document.getElementById('main-homepage-content').style.display='none';
+}
+function chiudiRicercaEHome(){
+  document.getElementById('main-search-bar').value='';
+  document.getElementById('sezione-ricerca').style.display='none';
+  document.getElementById('main-homepage-content').style.display='block';
+}
+
+function apriProdotto(id){
+  const p=DB.find(x=>x.id===id);if(!p)return;
+  document.getElementById('modal-title').innerText=p.titolo;
+  document.getElementById('modal-price').innerText=p.prezzo.toFixed(2)+'€';
+  const im=document.getElementById('modal-img');im.src=p.img;im.alt=p.titolo;
+  im.onerror=()=>im.style.display='none';
+  document.getElementById('modal-add-btn').onclick=()=>{aggiungiID(p.id);chiudiProdotto();};
+  document.getElementById('product-modal').style.display='block';
+}
+function chiudiProdotto(){document.getElementById('product-modal').style.display='none';}
+
+function apriGengarPage(){document.getElementById('gengar-page').style.display='block';document.getElementById('gengar-page').scrollTop=0;document.body.style.overflow='hidden';}
+function chiudiGengarPage(){document.getElementById('gengar-page').style.display='none';document.body.style.overflow='';}
+
+function apriRuota(){document.getElementById('ruota-modal').style.display='block';}
+function chiudiRuota(){document.getElementById('ruota-modal').style.display='none';}
+function attivaMeccanismoRuota(){
+  const em=document.getElementById('ruota-email').value;
+  if(!em.includes('@')){alert('Inserisci una email valida!');return;}
+  const b=document.getElementById('btn-gira-click');b.classList.add('attivo');
+  alert('Email registrata! Premi GIRA LA RUOTA!');
+}
+let ruotaSpin=false;
+function avviaGiroRuota(){
+  if(ruotaSpin||!document.getElementById('btn-gira-click').classList.contains('attivo'))return;
+  ruotaSpin=true;
+  document.getElementById('wheel-svg').style.transform=`rotate(${Math.floor(Math.random()*2000)+2000}deg)`;
+  setTimeout(()=>{alert('🎉 Complimenti! Hai vinto una bustina omaggio! Codice: PULLFOIL2026');ruotaSpin=false;chiudiRuota();},4000);
+}
+
+function apriCassa(){
+  if(!carrello.length){alert('Il tuo bottino è vuoto!');return;}
+  document.getElementById('cart-sidebar').style.display='none';
+  document.getElementById('checkout-modal').style.display='block';
+  const sum=document.getElementById('checkout-summary-list');sum.innerHTML='';
+  let tot=0;carrello.forEach(p=>{tot+=p.prezzo;sum.innerHTML+=`<div class="summary-item"><span>${p.titolo}</span><span>${p.prezzo.toFixed(2)}€</span></div>`;});
+  document.getElementById('checkout-total-val').innerText=tot.toFixed(2)+'€';
+}
+function chiudiCassa(){document.getElementById('checkout-modal').style.display='none';}
+function selezionaPag(t){
+  document.getElementById('method-card').classList.toggle('active',t==='card');
+  document.getElementById('method-crypto').classList.toggle('active',t==='crypto');
+  document.getElementById('payment-fields').innerHTML=t==='card'
+    ?`<div class="form-group"><label>Numero Carta</label><input type="text" class="form-input" placeholder="0000 0000 0000 0000"></div><div class="form-row"><div class="form-group"><label>Scadenza</label><input type="text" class="form-input" placeholder="MM/AA"></div><div class="form-group"><label>CVC</label><input type="text" class="form-input" placeholder="123"></div></div>`
+    :`<div style="text-align:center;padding:15px;background:#f1f5f9;border-radius:10px;"><p style="color:var(--neon-green);font-weight:bold;margin-bottom:5px;">Indirizzo Bitcoin:</p><code style="font-size:.85rem;word-break:break-all;">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</code></div>`;
+}
+function concludiOrdine(){alert('✅ Ordine inviato! Riceverai conferma via email.');carrello=[];aggiornaCarrello();chiudiCassa();}
+</script>
+</body>
+</html>
